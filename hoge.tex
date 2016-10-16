@@ -1,7 +1,8 @@
-\documentclass[12pt, a4paper]{jarticle}
+\documentclass[12pt, a4paper, titlepage]{jarticle}
 \usepackage[left = 25truemm, top = 25truemm, bottom = 25truemm, right = 25truemm]{geometry}
+\pagestyle{empty}
 
-%\setlength{\textwidth}{35zw} 
+%\setlength{\textwidth}{35zw}
 %\setlength{\textheight}{30\baselineskip}
 
 \makeatletter
@@ -21,18 +22,32 @@
 	\divide\baselineskip by #1
 	}
 
-\title{自調自考文}
+\title{自調自考論文}
 \author{tomorrow}
-\date{2016/10/9}
+\date{}
 
 \begin{document}
-
+	\maketitle
 	% 一行あたり文字数の指定
 	\mojiparline{35}
 	% 1ページあたり行数の指定
 	\linesparpage{30}
-	\maketitle
 
-ここが論文の本文です。
+	\tableofcontents
+	\clearpage
 
+	\section{はじめに}
+	\subsection{概要}
+
+	\section{問題提起}
+	
+	\section{本文}
+
+	\section{考察}
+
+	\section{結論}
+
+	\begin{thebibliography}{9}
+		\bibitem{キー1} hoge
+	\end{thebibliography}
 \end{document}
