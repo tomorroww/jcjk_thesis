@@ -1,23 +1,38 @@
-\documentclass[11pt.a4j]{jarticle}
+\documentclass[12pt, a4paper]{jarticle}
+\usepackage[left = 25truemm, top = 25truemm, bottom = 25truemm, right = 25truemm]{geometry}
 
-\title{自調自考 \\ 画像認識}
+%\setlength{\textwidth}{35zw} 
+%\setlength{\textheight}{30\baselineskip}
+
+\makeatletter
+\def\mojiparline#1{
+	\newcounter{mpl}
+	\setcounter{mpl}{#1}
+	\@tempdima=\linewidth
+	\advance\@tempdima by-\value{mpl}zw
+	\addtocounter{mpl}{-1}
+	\divide\@tempdima by \value{mpl}
+	\advance\kanjiskip by\@tempdima
+	\advance\parindent by\@tempdima
+}
+\makeatother
+\def\linesparpage#1{
+	\baselineskip=\textheight
+	\divide\baselineskip by #1
+	}
+
+\title{自調自考文}
 \author{tomorrow}
 \date{2016/10/9}
 
 \begin{document}
 
+	% 一行あたり文字数の指定
+	\mojiparline{35}
+	% 1ページあたり行数の指定
+	\linesparpage{30}
 	\maketitle
 
-	\tableofcontents
+ここが論文の本文です。
 
-	\section{hoge}
-	hogehoge
-	\subsection{foo}
-	foofoo
-	\subsubsection{fuga}
-	fugafuga
-
-	\section{一章}
-	論文だーい。
 \end{document}
-
