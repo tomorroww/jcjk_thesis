@@ -1,6 +1,7 @@
 \documentclass[12pt, a4paper, titlepage]{jarticle}
 \usepackage[left = 25truemm, top = 25truemm, bottom = 25truemm, right = 25truemm]{geometry}
 \pagestyle{empty}
+\usepackage{listings}
 
 %\setlength{\textwidth}{35zw}
 %\setlength{\textheight}{30\baselineskip}
@@ -22,7 +23,10 @@
 	\divide\baselineskip by #1
 	}
 
-\title{自調自考論文}
+
+\lstset{language=Python}
+
+\title{文字認識精度の向上のために}
 \author{tomorrow}
 \date{}
 
@@ -37,14 +41,81 @@
 	\clearpage
 
 	\section{はじめに}
-	\subsection{概要}
+		\subsection{概要}
+			この論文は「文字認識の精度を向上させるためには
+			どうすればいいか」という問題に対して,画像の
+			処理や変換,機械学習やディープラーニングの手法を
+			変えて実験をすることで,文字認識の最適な手法を
+			考えるものである.文字認識は文字の中で最も簡単で
+			基本的である数字で実験を行う.
+	\section{基礎知識}
+		\subsection{理論}
+			\subsubsection{}
+			この論文で用いる文字認識
+			の方法を説明する.今回認識する数字の画像は,縦28px
+			,横28px,文字の部分が黒,背景が白となっている.
+			画像中のそれぞれのピクセルにおける黒色の濃さ
+			を表した値をデータとして捉えていく.
+			前述のように,今回扱う画像は縦28px,横28px,つまり
+			784次元のベクトルとして表現されている.
+			\begin{eqnarray}
+				\mathrm{batch\_num} : データの個数 \nonumber \\
+				\mathrm{x = [batch\_num , 784]} \nonumber
+			\end{eqnarray}
+			これを用いて,0〜9の中から正しい物を導き出すために
+			重みとして,行列[784, 10]をかけることで,
+			10通りの結果が生まれ,それにバイアスとして[10]を付け足す
+			ことで,10種類の数字に対する出力となる.
+			この重みはそれぞれのピクセルの密度が濃い部分がそれぞれの
+			数字であることを肯定する証拠ならば正,反する証拠ならば,
+			負とするものである.つまり,それぞれのピクセルにおける濃さ
+			とそのピクセルが示す数字を表す重みの積の和10種類を求めて
+			いる.
+			\begin{eqnarray}
+				\mathrm{weight} & = & [784 , 10] \nonumber \\
+				\mathrm{bias} & = & [10] \nonumber\\
+				\mathrm{y} & = & \mathrm{x \times weight + bias} \nonumber
+			\end{eqnarray}
+			これらの値が大きい物がその数字を表している可能性高いと
+			とわかるのでsoftmax関数を用いて確率に変換することで,
+			その数字が表している数字が何かを判別することができる.
+			\begin{eqnarray}
+				\mathrm{p = softmax(y) }\nonumber
+			\end{eqnarray}
+			これまで述べてきた重みとバイアスを機械学習によって
+			求めさせるために,誤差関数としてクロスエントロピーを用いる.
+			クロスエントロピーは,実際の答えと現在の重みとバイアスにより
+			導かれた答えとの差を現すので,これが最小になるように
+			gradient descentアルゴリズムを用いることで,
+			重みとバイアスを計算していく.これをくりかえすことで
+			最適な重みとバイアスを決定しようとする.
+			\begin{eqnarray}
+				\mathrm{cross\_entropy = \sum_{i}^{} y'_ilog(p_i)} \nonumber
+			\end{eqnarray}
+			これによって得られた重みとバイアスを用いて,テスト用の
+			データと照らし合わせることで,文字認識の精度を測定する
+			ことができる.
+			\subsubsection{}
 
+		\subsection{プログラム}
+			以上に示した方法によって文字の認識精度を調べるために
+			MNISTを学習用データとして,TensorFlowを用いて
+			機械学習を行い,テスト用データを使って,認識精度の
+			測定を行う.以下にそのソースコードを示す.
+			\lstinputlisting[label=src1, caption=Pythonのコード]{main.py}
 	\section{問題提起}
-	
-	\section{本文}
+		\subsection{問題点}
+			2章に示したような方法を用いて文字認識の精度を測ると
+			認識精度は平均して91.33％というけっかになった.
+			一見すると,精度が高く見えるが,機械学習の中では
+			高いというよりもむしろ低い値で,改善の余地がある.
+			まず第一に,
+		\subsection{問題点の改善点}
+			\subsubsection{学習回数}
+			\subsubsection{学習アルゴリズム}
 
-	\section{考察}
-
+	\section{実験方法}
+	\section{実験結果}
 	\section{結論}
 
 	\begin{thebibliography}{9}
